@@ -1,0 +1,48 @@
+<form id="form1" method="post" action="enviarContacto.php">
+<input type="text" name="nombre" placeholder="Nombre*" required></input></br>
+<input type="text" name="apellido" placeholder="Apellido"></input></br>
+<input type="email" name="email" placeholder="Email*" required></input></br>
+<input type="text" name="tel" placeholder="Teléfono" required pattern="[0-9].{6,}" title="Ingrese un teléfono válido, sólo números."></input></br>
+<textarea placeholder="Mensaje" name="mensaje"></textarea></br>
+</br><input class="botonEnviarForm1" name="enviar" type="submit" value="Enviar">
+</form>
+
+
+
+<?php
+include("complementos/head.php");
+
+$nombre=$_POST["nombre"];
+$apellido=$_POST["apellido"];
+$email=$_POST["email"];
+$tel=$_POST["tel"];
+$mensaje=$_POST["mensaje"];
+$text = "";
+$text .= "Nombre: ".$nombre.". \n";
+if ($apellido != ""){
+$text .= "Apellido: ".$apellido.". \n";
+}
+else {
+$text .= "Apellido: No deja. \n";
+}
+$text .= "Email: ".$email.". \n";
+if ($tel != ""){
+$text .= "Tel.: ".$tel.". \n";
+}
+else {
+$text .= "Tel.: No deja. \n";
+}
+if ($mensaje != ""){
+$text .= "Mensaje: ".$mensaje.". \n";
+}
+else {
+$text .= "Mensaje: No deja. \n";
+}
+mail("eze-ac@hotmail.com", "Contacto desde la web", $text);
+
+?>
+
+<script>
+alert("Muchas gracias por su mensaje. Nos comunicaremos con usted en brebe.");
+history.back();
+</script>

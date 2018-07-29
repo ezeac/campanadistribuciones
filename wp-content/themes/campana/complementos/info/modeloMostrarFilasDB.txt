@@ -1,0 +1,20 @@
+function mostrarDatos ($resultados) {
+		if ($resultados !=NULL) {
+		$res .= "" .$resultados[1]. "</br>";
+		$res .= "" .$resultados[2]. "</br>";
+		$res .= "" .$resultados[3]. "</br>";
+		$res .= "" .$resultados[4]. "</br>";
+		$res .= "" .$resultados[5]. "</br>";
+		$res .= "" .$resultados[6]. "</br>";
+		$res .= "" .$resultados[7]. "</br>";
+		$res .= "**********************************<br/></br>";
+		}
+		else {$res .= "<br/>No hay más datos. <br/>";}
+		return $res;
+		}
+		
+		$result = mysqli_query($db, "SELECT * FROM clientes");
+		$text = '';
+		while ($fila = mysqli_fetch_array($result)){ 
+		echo '' .mostrarDatos($fila); 
+		}

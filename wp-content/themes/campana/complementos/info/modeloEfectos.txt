@@ -1,0 +1,28 @@
+//--------------------------animación para scroll--------------------------
+<div class="wow bounceInUp" data-wow-duration="2s" data-wow-delay="5s" data-wow-offset="10"  data-wow-iteration="10">
+Content to Reveal Here
+</div>
+
+
+
+
+//--------------------------animación sobre función--------------------------
+<script language="javascript">
+ $(function() {
+$("#ref").click(function() {
+         animate(".demo", 'bounce');
+         return false;
+    });
+ });
+ 
+ function animate(element_ID, animation) {
+     $(element_ID).addClass(animation);
+     var wait = window.setTimeout( function(){
+     $(element_ID).removeClass(animation)}, 1300
+     );
+ }
+</script>
+
+
+//--------------------------base de datos de efectos--------------------------
+//Efectos en: http://daneden.github.io/animate.css/

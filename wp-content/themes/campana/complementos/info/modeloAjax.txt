@@ -1,0 +1,24 @@
+<!-- Modelo AJAX -->
+
+<script>
+$(document).ready(function(){
+	$(".contenedorBotonesAbm").fadeOut();
+	$("div").delegate("#checkboxPlastico", "click", function(){
+		var codEstado = $("#checkboxPlastico:checked").parent().next().html();
+		var tipoEmbozo = $("#checkboxPlastico:checked").parent().next().next().html();
+		var pan = $("#checkboxPlastico:checked").parent().next().next().next().next().html();
+		mostraListadoEstados(codEstado, tipoEmbozo, pan);
+		$(".contenedorBotonesAbm").fadeIn();
+	});
+	function mostraListadoEstados(codEstado, tipoEmbozo, pan) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		        $(".formActualizarEstado").html(xmlhttp.responseText);
+		    }
+		};
+		xmlhttp.open("GET", "complementos/cargarEstadosPosibles.php?c=".concat(codEstado,"&t=",tipoEmbozo,"&p=",pan), true);
+		xmlhttp.send();
+	}
+});
+</script>

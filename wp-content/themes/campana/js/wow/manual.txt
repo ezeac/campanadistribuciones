@@ -1,0 +1,12 @@
+<script src="js/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>
+<link rel="stylesheet" href="css/animate.css">
+
+
+<div class="wow bounceInUp">
+Content to Reveal Here
+</div>
+
+//Animaciones en: http://daneden.github.io/animate.css/

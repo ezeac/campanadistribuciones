@@ -1,0 +1,226 @@
+
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+EN EL CSS:
+Cambiar el tamaño del contenedorSlider para adaptar al sitio.
+Agregar imagenes: fondo1.jpg, fondo2.jpg, fondo3.jpg, punto.png, puntoPrendido.png. y flecha.png (mirando a la derecha) para el funcionamiento de este modelo.
+Si se quieren agregar o quitar imágenes se deben modificar los valores de background de cada slider.
+
+---------------------------------------------------------------------------------------
+
+
+.contenedorSlider {
+    height: 500px;
+    position: relative;
+    width: 100%;
+}
+
+.contenedorSlider div[class*="slider"] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.slider1 {
+    background: url(fondo1.jpg);
+    background-size: cover;
+}
+
+.slider2 {
+    background: url(fondo2.jpg);
+    background-size: cover;
+}
+
+.slider3 {
+    background: url(fondo3.jpg);
+    background-size: cover;
+}
+
+.puntos div[class*="punto"] {
+    background: url(punto.png);
+    width: 20px;
+    height: 20px;
+    bottom: 0px;
+    float: left;
+    z-index: 1;
+    background-size: cover;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.puntos {
+    position: absolute;
+    width: 100%;
+    margin-left: 50%;
+    left: -60;
+    bottom: 20px;
+}
+
+.puntos div[class*="Prendido"] {
+    background: url(puntoPrendido.png);
+    background-size: cover;
+}
+
+.navegacion {
+    width: 100%;
+    position: absolute;
+    margin-top: 150px;
+}
+
+.navegacion div[class*="navegacion"] {
+    width: 50px;
+    height: 50px;
+    background: url(flechaNavegacion.png);
+    z-index: 1;
+    background-size: cover;
+    position: absolute;
+    cursor: pointer;
+}
+
+.navegacionIzquierda {
+    left: 1%;
+    transform: rotateY(180deg);
+}
+
+.navegacionDerecha {
+    right: 1%;
+}
+
+
+
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+HTML 
+Si se quieren agregar imágenes o quitar, se deben actualizar los divs de puntos, puntosPrendidos y la cantidad de div de "slider".
+
+---------------------------------------------------------------------------------------
+
+
+
+<div class="contenedorSlider">
+
+<div class="puntos"> 
+  <div class="punto1"></div>
+  <div class="punto2"></div>
+  <div class="punto3"></div> 
+</div>
+
+<div class="puntos"> 
+  <div class="punto1Prendido"></div> 
+  <div class="punto2Prendido"></div>
+  <div class="punto3Prendido"></div> 
+</div>
+
+<div class="navegacion">
+  <div class="navegacionIzquierda"></div>
+  <div class="navegacionDerecha"></div>
+</div>
+
+<div class="slider1">
+</div>
+<div class="slider2">
+</div>
+<div class="slider3">
+</div>
+
+</div>
+
+
+
+
+
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+JQUERY
+Cambiar la variable $intervalo para modificar la cantidad de segundos (por defecto en 7s).
+Cambiar la variable $maximo por la cantidad de imágenes en el slider (por defecto 3 imágenes).
+Para agregar más imagenes se debe agregar las líneas de código correspondiente en la función "actualizarImagen" y las funciones para el click en los puntos.
+
+
+---------------------------------------------------------------------------------------
+
+
+<script>
+$(document).ready(function(){
+
+$posicion = 1;
+$intervalo = 7000;
+$maximo = 3;
+$("[class*='slider']").css({"display":"none"});
+$("[class*='Prendido']").css({"opacity":0});
+$(".slider1").css({"display":"block"});
+$(".punto1Prendido").css({"opacity":100});
+
+$posicion = setInterval(actualizarPosicion, $intervalo);
+
+
+function actualizarPosicion() {
+  if($posicion === $maximo){
+    $posicion = 1
+  }
+  else {
+    $posicion += 1;
+  }
+  actualizarImagen(500);
+}
+
+function actualizarPosicionInverso() {
+  if($posicion === 1){
+    $posicion = $maximo;
+  }
+  else {
+    $posicion -= 1;
+  }
+  actualizarImagen(500);
+}
+
+function actualizarImagen($time){
+  $("[class*='slider']").stop().fadeOut($time);
+  $("[class*='Prendido']").stop().animate({"opacity":0},$time);
+  if($posicion === 1){
+    $(".slider1").stop().fadeIn($time);
+    $(".punto1Prendido").stop().animate({"opacity":100},$time);
+  }
+  if($posicion === 2){
+    $(".slider2").stop().fadeIn($time);
+    $(".punto2Prendido").stop().animate({"opacity":100},$time);
+  }
+  if($posicion === 3){
+    $(".slider3").stop().fadeIn($time);
+    $(".punto3Prendido").stop().animate({"opacity":100},$time);
+  }
+}
+
+$(".navegacionDerecha").click(function(){
+  actualizarPosicion();
+});
+$(".navegacionIzquierda").click(function(){
+  actualizarPosicionInverso();
+});
+
+$(".punto1, .punto1Prendido").click(function(){
+  $posicion = 1;
+  actualizarImagen();
+});
+$(".punto2, .punto2Prendido").click(function(){
+  $posicion = 2;
+  actualizarImagen();
+});
+$(".punto3, .punto3Prendido").click(function(){
+  $posicion = 3;
+  actualizarImagen();
+});
+
+
+
+});
+</script>
+
+
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
