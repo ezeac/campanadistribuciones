@@ -10,12 +10,19 @@
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
-<meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-<link rel="profile" href="http://gmpg.org/xfn/11">
-<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 
-<?php wp_head(); ?>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<?php wp_head(); ?>
+	<script src="<?php echo get_stylesheet_directory_uri(); ?>/js/custom.js"></script>
 </head>
 
 <body <?php body_class(); ?>>
@@ -29,20 +36,7 @@
 		<div class="col-full">
 
 			<?php
-			/**
-			 * Functions hooked into storefront_header action
-			 *
-			 * @hooked storefront_skip_links                       - 0
-			 * @hooked storefront_social_icons                     - 10
-			 * @hooked storefront_site_branding                    - 20
-			 * @hooked storefront_secondary_navigation             - 30
-			 * @hooked storefront_product_search                   - 40
-			 * @hooked storefront_primary_navigation_wrapper       - 42
-			 * @hooked storefront_primary_navigation               - 50
-			 * @hooked storefront_header_cart                      - 60
-			 * @hooked storefront_primary_navigation_wrapper_close - 68
-			 */
-			do_action( 'storefront_header' ); ?>
+			do_action( 'storefront_header2' ); ?>
 
 		</div>
 	</header><!-- #masthead -->
