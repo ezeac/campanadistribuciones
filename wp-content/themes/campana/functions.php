@@ -53,7 +53,8 @@ function woocommerce_template_single_excerpt() {
 	<?php
 }
 
-function woocommerce_template_single_meta() {
+
+function woocommerce_template_single_meta_qv() {
 	global $product;
 	?>
 	<div class="product_meta">
@@ -69,6 +70,40 @@ function woocommerce_template_single_meta() {
 		<?php echo wc_get_product_category_list( $product->get_id(), ', ', '<div class="posted_in meta-info"> <div class="product-info-tit">Categorías:</div><div class="item-text">', '</div></div>' ); ?>
 
 		<?php echo wc_get_product_tag_list( $product->get_id(), ', ', '<div class="tagged_as meta-info">' . _n( 'Tag:', 'Tags:', count( $product->get_tag_ids() ), 'woocommerce' ) . ' ', '</div>' ); ?>
+
+		<?php do_action( 'woocommerce_product_meta_end' ); ?>
+
+	</div>
+	<?php
+}
+
+
+function woocommerce_template_single_meta() {
+	global $product;
+	?>
+	<div class="product_meta">
+
+		<?php do_action( 'woocommerce_product_meta_start' ); ?>
+
+
+		<?php echo wc_get_product_category_list( $product->get_id(), ', ', '<div class="posted_in meta-info meta-infov2"> <div class="product-info-tit2">Categorías:</div><div class="item-text2">', '</div></div>' ); ?>
+
+		<?php echo wc_get_product_tag_list( $product->get_id(), ', ', '<div class="tagged_as meta-info">' . _n( 'Tag:', 'Tags:', count( $product->get_tag_ids() ), 'woocommerce' ) . ' ', '</div>' ); ?>
+
+		<?php if ( wc_product_sku_enabled() && ( $product->get_sku() || $product->is_type( 'variable' ) ) ) : ?>
+			<div class="sku-and-price">
+				<div class="sku_wrapper meta-info">
+					<div class="product-info-tit"><?php esc_html_e( 'Código de producto:', 'woocommerce' ); ?></div> 
+					<div class="sku item-text"><?php echo ( $sku = $product->get_sku() ) ? $sku : esc_html__( 'N/A', 'woocommerce' ); ?></div>
+				</div>
+				
+				<div class="price-cont">
+					<div class="product-info-tit">Precio por unidad:</div>
+					<p class="price"><?php echo $product->get_price_html(); ?></p>
+				</div>
+			</div>
+		
+		<?php endif; ?>
 
 		<?php do_action( 'woocommerce_product_meta_end' ); ?>
 
@@ -113,7 +148,7 @@ function storefront_header_cart_custom() {
 				<ul id="site-header-cart" class="header-links site-header-cart menu">
 					<li class="link-item <?php echo esc_attr( $class ); ?>">
 						<?php //storefront_cart_link(); ?>
-						<a href=""><i class="material-icons">shopping_cart</i><span>CARRITO</span></a>
+						<a href="/index.php/cart/"><i class="material-icons">shopping_cart</i><span>CARRITO</span></a>
 					</li>
 					<li>
 						<?php the_widget( 'WC_Widget_Cart', 'title=' ); ?>

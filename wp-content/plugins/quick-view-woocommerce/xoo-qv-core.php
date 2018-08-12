@@ -66,21 +66,17 @@ if($xoo_qv_lb_en_gallery_value){
 // Summary
 add_action( 'xoo-qv-summary', 'woocommerce_template_single_title', 5 );
 add_action( 'xoo-qv-summary', 'woocommerce_template_single_excerpt', 6 );
-add_action( 'xoo-qv-summary', 'woocommerce_template_single_meta', 8 );
+add_action( 'xoo-qv-summary', 'woocommerce_template_single_meta_qv', 8 );
 add_action( 'xoo-qv-summary', 'woocommerce_template_single_rating', 10 );
-add_action( 'xoo-qv-summary', 'woocommerce_template_single_price_qv', 15 );
+add_action( 'xoo-qv-summary', 'woocommerce_template_single_price', 15 );
 add_action( 'xoo-qv-summary', 'woocommerce_template_single_add_to_cart', 25 );
 if($xoo_qv_gl_pbutton_value){add_action( 'xoo-qv-summary', 'xoo_qv_product_info',7 );}
 
 
 
-function woocommerce_template_single_price_qv() {
-	?>
-	<div class="product-info-tit">Precio por unidad:</div>
-	<?php
+function woocommerce_template_single_price() {
 	wc_get_template( 'single-product/price.php' );
 }
-
 
 // Product Details Button
 function xoo_qv_product_info(){
