@@ -42,7 +42,7 @@
 
 		</div>
 	</header><!-- #masthead -->
-
+	
 	<?php
 	/**
 	 * Functions hooked in to storefront_before_content

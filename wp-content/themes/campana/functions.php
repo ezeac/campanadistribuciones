@@ -46,15 +46,38 @@ add_action('storefront_header2', 'storefront_site_branding', 10);
 add_action('storefront_header2', 'storefront_header_cart_custom', 20);
 add_action('storefront_header2', 'storefront_primary_navigation', 30);
 
-add_action('woocommerce_before_main_content', 'page_title_content', 10);
-add_action('woocommerce_before_cart', 'page_title_content', 20);
-add_action('woocommerce_before_checkout_form', 'page_title_content', 1);
+// add_action('woocommerce_before_main_content', 'page_title_content', 10);
+// add_action('woocommerce_before_cart', 'page_title_content', 20);
+// add_action('woocommerce_before_checkout_form', 'page_title_content', 1);
+add_action('storefront_content_top', 'page_title_content', 1);
 
+add_action('woocommerce_login_form_end', 'info_login', 1);
 
 //----------------------------------------
 //FUNCTIONS
 //----------------------------------------
 
+function info_login() {
+	?>
+	<div class="login-form-info">Si usted aún no es cliente, utilice nuestro <a href="/index.php/contacto">formulario de contacto</a> para comunicarse con nosotros. Le brindaremos los datos necesarios para ingresar y poder acceder a nuestra tienda y lista de precios.</div>
+	<?php
+}
+
+
+function woocommerce_checkout_payment() {
+	if ( WC()->cart->needs_payment() ) {
+		$available_gateways = WC()->payment_gateways()->get_available_payment_gateways();
+		WC()->payment_gateways()->set_current_gateway( $available_gateways );
+	} else {
+		$available_gateways = array();
+	}
+
+	wc_get_template( 'checkout/payment.php', array(
+		'checkout'           => WC()->checkout(),
+		'available_gateways' => $available_gateways,
+		'order_button_text'  => apply_filters( 'woocommerce_order_button_text', __( 'Finalizar Compra', 'woocommerce' ) ),
+	) );
+}
 
 function header_left_extra_logo() {
 	?>
@@ -126,6 +149,39 @@ function woocommerce_template_single_meta() {
 	<?php
 }
 
+function storefront_product_search() {
+	if ( storefront_is_woocommerce_activated() ) { ?>
+		<div class="site-search">
+			<?php the_widget( 'WC_Widget_Product_Search', 'title=' ); ?>
+			<div class="close-mobile visible-xs visible-sm" onclick="javascript:$('.site-search').fadeToggle()"><i class="material-icons">arrow_back</i></div>
+		</div>
+	<?php
+	}
+}
+
+function storefront_primary_navigation() {
+	?>
+	<div class="site-search-btn" onclick="javascript:$('.site-search').fadeToggle()"><i class="material-icons">search</i></div>
+	<nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_html_e( 'Primary Navigation', 'storefront' ); ?>">
+	<button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false"><span><?php echo esc_attr( apply_filters( 'storefront_menu_toggle_text', __( 'Menu', 'storefront' ) ) ); ?></span></button>
+			<?php
+			wp_nav_menu(
+				array(
+					'theme_location'	=> 'primary',
+					'container_class'	=> 'primary-navigation',
+					)
+			);
+
+			wp_nav_menu(
+				array(
+					'theme_location'	=> 'handheld',
+					'container_class'	=> 'handheld-navigation',
+					)
+			);
+			?>
+	</nav><!-- #site-navigation -->
+	<?php
+}
 
 function page_title_content() {
 	if (is_shop() || is_product_category()) {
@@ -135,6 +191,20 @@ function page_title_content() {
 			<span><?php woocommerce_page_title(); ?></span>
 			<?php storefront_product_search(); ?>
 		</div>
+		<script>
+			$(document).ready(function(){
+				//shop filters
+				$(".top-page-title").after("<div class='filters'><div class='tit'><i class='material-icons'>tune</i><span>FILTROS</span><i class='material-icons icon-arrow'>arrow_drop_down</i></div><div class='cont'>"+$('#secondary')[0].outerHTML+"</div></div>");
+				$(".filters .tit").click(function(){
+					$(".filters .cont").slideToggle();
+					if ($(".filters .icon-arrow").html() != "arrow_drop_up") {
+						$(".filters .icon-arrow").html("arrow_drop_up");
+					} else {
+						$(".filters .icon-arrow").html("arrow_drop_down");
+					}
+				});
+			});
+		</script>
 		<?php
 	} else {
 		?>
@@ -178,7 +248,7 @@ function storefront_header_cart_custom() {
 			} else {
 				?>
 				<ul class="header-links">
-					<li class="link-item login-link">
+					<li class="link-item account-link">
 						<a href="/index.php/mi-cuenta"><i class="material-icons">person</i><span>INICIAR SESIÓN</span></a>
 					</li>
 				</ul>
@@ -236,25 +306,27 @@ function storefront_featured_products_custom( $args ) {
 		?>
 		<script>
 			jQuery(document).ready(function(){
-				jQuery('.home .storefront-featured-products ul.products').owlCarousel({
-					loop:true,
-					margin:10,
-					nav:true,
-					autoplay:true,
-				    autoplayTimeout:5000,
-				    autoplayHoverPause:true,
-					responsive:{
-						0:{
-							items:1
-						},
-						600:{
-							items:3
-						},
-						1000:{
-							items:4
+				if ($(window).outerWidth()>768) {
+					jQuery('.home .storefront-featured-products ul.products').owlCarousel({
+						loop:true,
+						margin:10,
+						nav:true,
+						autoplay:true,
+						autoplayTimeout:5000,
+						autoplayHoverPause:true,
+						responsive:{
+							0:{
+								items:1
+							},
+							600:{
+								items:3
+							},
+							1000:{
+								items:4
+							}
 						}
-					}
-				});
+					});
+				}
 			});
 		</script>
 		<?php

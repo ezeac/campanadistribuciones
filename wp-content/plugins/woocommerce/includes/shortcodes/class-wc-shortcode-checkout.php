@@ -147,7 +147,7 @@ class WC_Shortcode_Checkout {
 					'checkout/form-pay.php', array(
 						'order'              => $order,
 						'available_gateways' => $available_gateways,
-						'order_button_text'  => apply_filters( 'woocommerce_pay_order_button_text', __( 'Pay for order', 'woocommerce' ) ),
+						'order_button_text'  => apply_filters( 'woocommerce_pay_order_button_text', __( 'Finalizar Compra', 'woocommerce' ) ),
 					)
 				);
 

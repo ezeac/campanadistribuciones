@@ -29,8 +29,10 @@ $(document).ready(function(){
 	//header back button link (use hidden breadcumb)
 	if (!$(".woocommerce-breadcrumb span:last-child").is(':nth-child(2)')) {
 		$(".top-page-title > a").attr('href',$(".woocommerce-breadcrumb span:last-child").prev().attr('href'));
-	} else {
+	} else if (!$("body").is("[class*='page-template']")) {
 		$(".top-page-title > a").attr('href','/index.php/shop');
+	} else {
+		$(".top-page-title > a").attr('href','/index.php/');
 	}
 	//if ($(".entry-title").html() != undefined) { $(".top-page-title > span").html($(".entry-title").html()); }
 
@@ -42,4 +44,34 @@ $(document).ready(function(){
 	$(".scroll-navigation-button-bottom").click(function() {
 		$('html, body').animate({'scrollTop':$(this).parent().parent().offset().top-50+$(this).parent().parent().outerHeight()},500);
 	});
+
+	//fix checkout
+	if ($("body").is(".woocommerce-checkout:not(.woocommerce-order-received)")) {
+		$("#billing_country_field").after("<h3 class='tit'>Dirección de Envío</h3>");
+		$("#billing_first_name_field").after("<h3 class='tit'>Datos Personales</h3>");
+		var total = $(".checkout .order-total .amount").html();
+		var subtotal = $(".checkout .cart-subtotal .amount").html();
+		$('#place_order').html("Finalizar Compra");
+		$(".checkout div#order_review").prepend("<div class='order-totals-checkout'><div class='details'><div class='item'>Subtotal: "+subtotal+"</div></div><div class='tot'><div class='item total'>Total: "+total+"</div><div class='item submit'>"+$('#place_order')[0].outerHTML+"</div></div></div>");
+	}
+	//success
+	$(".woocommerce-order-received h2.woocommerce-column__title").each(function(){
+		if($(this).html() == "Dirección de facturación"){
+			$(this).html("Dirección");
+			return false;
+		}
+	});
+	$(".woocommerce-order-received tfoot tr th").each(function(){
+		if($(this).html() == "Método de pago:"){
+			$(this).parent().remove();
+			return false;
+		}
+	});
+
+	//catalog
+	$("li.cat-item.cat-item-15 a").html("Sin Categoría");
+
+	//mobile menu
+	$(".primary-navigation .menu.nav-menu").prepend($(".header-links-cont > ul > li").clone().addClass("visible-xs"));
+
 });

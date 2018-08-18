@@ -97,13 +97,6 @@
 				<div class="text">Le brindamos la comodidad de recibir por mail la lista de precios vigente, podrá actualizarla descargándola de la página web o mediante los servicios de GEMA y NOVA.</div>
 			</div>
 
-
-			<div class="item">
-				<div class="img"></div>
-				<div class="tit"></div>
-				<div class="text"></div>
-			</div>
-
 		</section>
 
 		<section class="parallax-home">
