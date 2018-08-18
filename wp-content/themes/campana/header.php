@@ -23,6 +23,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<?php wp_head(); ?>
 	<script src="<?php echo get_stylesheet_directory_uri(); ?>/js/custom.js"></script>
+	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/js/owl.min.css" />
+	<script src="<?php echo get_stylesheet_directory_uri(); ?>/js/owl.min.js"></script>
 </head>
 
 <body <?php body_class(); ?>>

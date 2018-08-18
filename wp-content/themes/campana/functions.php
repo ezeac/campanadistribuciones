@@ -24,6 +24,13 @@ function sf_child_theme_dequeue_style() {
  */
 
 
+function my_custom_login_redirect(){
+  //Pasamos a la función home_url() el slug de nuestra página de Área Privada
+  wp_redirect(home_url("/"));
+  exit();
+}
+add_action('wp_login','my_custom_login_redirect');
+
 
 //----------------------------------------
 //HOOKS
@@ -34,18 +41,26 @@ add_action('homepage2', 'storefront_featured_products_custom', 40);
 add_action('homepage2', 'storefront_product_brands', 50);
 
 
+add_action('storefront_header2', 'header_left_extra_logo', 5);
 add_action('storefront_header2', 'storefront_site_branding', 10);
 add_action('storefront_header2', 'storefront_header_cart_custom', 20);
 add_action('storefront_header2', 'storefront_primary_navigation', 30);
 
 add_action('woocommerce_before_main_content', 'page_title_content', 10);
 add_action('woocommerce_before_cart', 'page_title_content', 20);
+add_action('woocommerce_before_checkout_form', 'page_title_content', 1);
 
 
 //----------------------------------------
 //FUNCTIONS
 //----------------------------------------
 
+
+function header_left_extra_logo() {
+	?>
+	<div class="header-extra-logo"><img src="<?php echo get_stylesheet_directory_uri() ?>/imagenes/logos/logo_30_an.png" alt="" style="width: 100%;"></div>
+	<?php
+}
 
 function woocommerce_template_single_excerpt() {
 	?>
@@ -125,7 +140,7 @@ function page_title_content() {
 		?>
 		<div class="top-page-title">
 			<a href="" title="Ir atrás"><i class="material-icons">arrow_back</i></a>
-			<span><?php woocommerce_page_title(); ?></span>
+			<span><?php echo (get_the_title() == "Checkout") ? "Datos de Facturación" : get_the_title(); ?></span>
 		</div>
 		<?php
 	}
@@ -155,7 +170,7 @@ function storefront_header_cart_custom() {
 					</li>
 				</ul>
 				<ul class="header-links">
-					<li class="link-item">
+					<li class="link-item account-link">
 						<a href="/index.php/mi-cuenta"><i class="material-icons">person</i><span>MI CUENTA</span></a>
 					</li>
 				</ul>
@@ -163,7 +178,7 @@ function storefront_header_cart_custom() {
 			} else {
 				?>
 				<ul class="header-links">
-					<li class="link-item">
+					<li class="link-item login-link">
 						<a href="/index.php/mi-cuenta"><i class="material-icons">person</i><span>INICIAR SESIÓN</span></a>
 					</li>
 				</ul>
@@ -180,7 +195,7 @@ function storefront_featured_products_custom( $args ) {
 	if ( storefront_is_woocommerce_activated() ) {
 
 		$args = apply_filters( 'storefront_featured_products_args', array(
-			'limit'      => 4,
+			'limit'      => 8,
 			'columns'    => 4,
 			'orderby'    => 'date',
 			'order'      => 'desc',
@@ -218,13 +233,41 @@ function storefront_featured_products_custom( $args ) {
 			echo '</section>';
 
 		}
+		?>
+		<script>
+			jQuery(document).ready(function(){
+				jQuery('.home .storefront-featured-products ul.products').owlCarousel({
+					loop:true,
+					margin:10,
+					nav:true,
+					autoplay:true,
+				    autoplayTimeout:5000,
+				    autoplayHoverPause:true,
+					responsive:{
+						0:{
+							items:1
+						},
+						600:{
+							items:3
+						},
+						1000:{
+							items:4
+						}
+					}
+				});
+			});
+		</script>
+		<?php
 	}
 }
 
 function storefront_product_brands () {
 	?>
 	<section class="marca_home">
-		<div class="bg"></div>
+		<div class="bg">
+			<span class="before scroll-navigation-button">arrow_drop_down</span>
+			<span class="after scroll-navigation-button-bottom">arrow_drop_down</span>
+		</div>
 		<div class="tit"><h2>Nuestras marcas</h2></div>
 		<div class="cont">
 		<?php
